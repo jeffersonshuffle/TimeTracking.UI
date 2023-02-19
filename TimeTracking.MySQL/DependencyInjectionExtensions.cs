@@ -22,13 +22,13 @@ public static class DependencyInjectionExtensions
     private static IServiceCollection AddContext(this IServiceCollection services, IConfiguration configuration)
     {
         var sqlConnection = configuration.GetSection(nameof(MySqlConnectionOptions)).Get<MySqlConnectionOptions>();
-        var useMsSql = true;
-        services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseMySQL(configuration.GetConnectionString(sqlConnection.ConnectionStringName)));
+        services.AddDbContext<ApplicationDbContext>(options => {
+            options.UseMySQL(configuration.GetConnectionString(sqlConnection.ConnectionStringName));
+        });
         return services;
     }
 
-    private static IEnumerable<Type> EntityTypes => typeof(Entity).Assembly.GetTypes() // все типы сборки Entities
+    private static IEnumerable<Type> EntityTypes => typeof(Entity).Assembly.GetTypes() // все типы сборки DataModels
         .Where(t => t.IsClass);
 
     private static IServiceCollection AddDbSets(this IServiceCollection services)
@@ -37,7 +37,7 @@ public static class DependencyInjectionExtensions
 
         foreach (var entityType in EntityTypes)
         {
-            var genericSet = getDbSet.MakeGenericMethod(entityType);
+            var genericSet = getDbSet?.MakeGenericMethod(entityType);
             services.AddScoped(
                 typeof(DbSet<>).MakeGenericType(entityType),
                 provider =>

@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TimeTracking.DataModels
 {
-    public class CalendarItem
+    public class EmployeeCalendarItem
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
-        public int DayMarkID { get; set; }
+        public int DayMarkID { get; set; }    
+        public Guid EmployeeID { get; set; }
         public virtual DayMark Mark { get; set; }
     }
 }

@@ -11,8 +11,8 @@ namespace TimeTracking.DAL.Configurations
             builder.HasKey(x => x.ID).HasName(PrimaryKeyName);
             builder.Property(x => x.ID).ValueGeneratedNever();
             builder.Property(x => x.Name).IsRequired(true).HasMaxLength(250);
-            builder.Property(x => x.Description).IsRequired(true).HasMaxLength(500);
-
+            builder.Property(x => x.Description).HasMaxLength(500);
+            
             ConfigureDatabase(builder);
         }
         protected abstract void ConfigureDatabase(EntityTypeBuilder<Department> builder);
