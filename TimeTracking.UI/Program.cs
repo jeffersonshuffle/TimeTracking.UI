@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TimeTracking.MySQL;
+using TimeTracking.UI.Views;
 
 namespace TimeTracking.UI;
 
@@ -18,12 +19,8 @@ internal static class Program
         host.Start();
 
         using var scope = host.Services.CreateScope();
-        using (var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
-        {
-            db.Database.Migrate();
-        }
         ApplicationConfiguration.Initialize();
-        Application.Run(new MainForm());
+        Application.Run(new TimeTrackingForm());
         host.StopAsync();
     }
 

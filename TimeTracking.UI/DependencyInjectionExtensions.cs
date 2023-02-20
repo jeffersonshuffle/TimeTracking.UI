@@ -1,9 +1,12 @@
-﻿namespace Microsoft.Extensions.DependencyInjection;
+﻿using System.Reflection;
+
+namespace Microsoft.Extensions.DependencyInjection;
 
 internal static class DependencyInjectionExtensions
 {
     internal static IServiceCollection AddViewModels(this IServiceCollection services)
     {
-        return services.AddSelfRegisteredServices();
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        return services.AddSelfRegisteredServices();        
     }
 }
