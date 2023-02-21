@@ -6,4 +6,20 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Collection" Version="9.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TimeTracking.DataModels\TimeTracking.DataModels.csproj" />
+    <ProjectReference Include="..\TimeTracking.MySQL\TimeTracking.MySQL.csproj" />
+    <ProjectReference Include="..\TimeTracking.Shared\TimeTracking.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="PositionAssignments\" />
+  </ItemGroup>
+
 </Project>

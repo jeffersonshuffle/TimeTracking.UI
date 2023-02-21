@@ -98,5 +98,11 @@ CREATE INDEX `IX_position_assignment_position_ID` ON `time_tracking`.`position_a
 INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
 VALUES ('20230219000947_InitialCreate', '7.0.3');
 
-
+CREATE VIEW employee_by_department_list_view AS
+select d.ID as DepartmentID, e.ID as EmployeeID, e.first_name as FirstName,
+	e.last_name as LastName, e.personnel_number as PersonnelNumber, p.title as EmployeePosition
+from department as d 
+inner join position_assignment as pa on  d.ID = pa.department_ID
+inner join employee as e on e.ID = pa.employee_ID
+inner join position as p on p.position_id = pa.position_ID;
 
