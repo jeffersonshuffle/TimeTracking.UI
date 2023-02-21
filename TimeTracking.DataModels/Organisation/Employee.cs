@@ -13,7 +13,7 @@ namespace TimeTracking.DataModels.Organisation
         public DateTime BirthDate { get; set; }
         public byte[] Photo { get; set; }
         public int AddressId { get; set; }
-        public virtual Address Address { get; }
+        public virtual Address Address { get; set; }
         public virtual PositionAssignment Assignment { get; set; }
         public virtual ICollection<EmployeeCalendarItem> Calendar { get; set; }
     }

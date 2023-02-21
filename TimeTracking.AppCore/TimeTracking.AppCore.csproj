@@ -18,4 +18,8 @@
     <ProjectReference Include="..\TimeTracking.Shared\TimeTracking.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="PositionAssignments\" />
+  </ItemGroup>
+
 </Project>

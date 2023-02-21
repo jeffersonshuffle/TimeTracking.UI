@@ -1,31 +1,31 @@
 ﻿using AutoMapper;
+using TimeTracking.Abstractions;
 using TimeTracking.AppCore;
+using TimeTracking.DTOs;
 using TimeTracking.UI.Models;
 
 namespace TimeTracking.UI.ViewModels
 {
-    internal class DepartmentsViewModel
+    internal class DepartmentsViewModel : IDepartmentsViewModel, ISelfRegisteredService<IDepartmentsViewModel>
     {
         private readonly IDeparmentsQueryService _service;
         private readonly IMapper _mapper;
-        public DepartmentsViewModel(IDeparmentsQueryService service, IMapper mapper) 
+        public DepartmentsViewModel(IDeparmentsQueryService service, IMapper mapper)
         {
             _service = service;
             _mapper = mapper;
-        }   
-        private DepartmentListModel[] _deparments;
-        public DepartmentListModel[] Departments => _deparments;
-        public Guid SelectedId { get; private set; }
+        }
+        private DepartmentListItem[] _deparments;
+        public DepartmentListItem[] Departments => _deparments;
+        public int SelectedIndex { get; set; }
         public async Task Initialize(CancellationToken token = default)
         {
-            await LoadDepartments(token);
+            await LoadDepartments(token);            
         }
 
         private async Task LoadDepartments(CancellationToken token = default)
         {
-            var departments = await _service.GetDepartmentsAsync(token);
-            _mapper.Map(departments, _deparments);
-            SelectedId = _deparments != null ? _deparments[0].DepartmentId : default;
+            _deparments = await _service.GetDepartmentsAsync(token);
         }
     }
 }

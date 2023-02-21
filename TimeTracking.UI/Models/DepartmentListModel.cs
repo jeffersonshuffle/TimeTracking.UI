@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TimeTracking.UI.Models
 {
-    internal class DepartmentListModel
+    public class DepartmentListModel
     {
         public Guid DepartmentId { get; init; }
         public string Name { get; init; }

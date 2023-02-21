@@ -1,8 +1,9 @@
-using Microsoft.EntityFrameworkCore;
+#define SeedDb
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TimeTracking.MySQL;
+using TimeTracking.UI.Helpers;
+using TimeTracking.UI.ViewModels;
 using TimeTracking.UI.Views;
 
 namespace TimeTracking.UI;
@@ -19,8 +20,15 @@ internal static class Program
         host.Start();
 
         using var scope = host.Services.CreateScope();
+#if SeedDb
+        //DbSeeder.SeedEmployees(scope.ServiceProvider);
+        //DbSeeder.SeedAddresses(scope.ServiceProvider);
+        //DbSeeder.SeedDepartments(scope.ServiceProvider);
+        //DbSeeder.SeedPositions(scope.ServiceProvider);
+#endif
         ApplicationConfiguration.Initialize();
-        Application.Run(new TimeTrackingForm());
+        Application.Run(new EditEmployeeForm());
+        //Application.Run(new TimeTrackingForm(scope.ServiceProvider.GetRequiredService<IDepartmentsViewModel>()));
         host.StopAsync();
     }
 
@@ -34,6 +42,7 @@ internal static class Program
        .ConfigureServices((hostContext, services) =>
        {
            services.AddDAL(hostContext.Configuration);           
+           services.UseAppCore();
            services.AddViewModels();
        });
 }
