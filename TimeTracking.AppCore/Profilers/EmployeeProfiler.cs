@@ -9,7 +9,9 @@ internal class EmployeeProfiler: Profile
 {
     public EmployeeProfiler() 
     {
-        CreateProjection<Employee, EmployeeListItem>();
+        CreateProjection<Employee, EmployeePersonalInfoListItem>();
         CreateMap<EmployeeData, Employee>();
+        CreateMap<Employee, EmployeeData>();
+        CreateMap<Employee, EmployeeDetails>();
     }
 }

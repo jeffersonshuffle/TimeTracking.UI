@@ -1,30 +1,81 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.ComponentModel;
+using TimeTracking.UI.Properties;
+using TimeTracking.UI.ViewModels;
 
 namespace TimeTracking.UI.Views
 {
     public partial class EditEmployeeForm : Form
     {
-        public EditEmployeeForm()
+        private readonly IEditEmployeeViewModel _viewModel;
+        private Action<IEditEmployeeViewModel> _viewModelInitializer = vm => vm.CreateNewEmployee();
+        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+        public EditEmployeeForm(IEditEmployeeViewModel viewModel)
         {
+            _viewModel = viewModel;
             InitializeComponent();
+            photo.Image = Resources.nophoto;
         }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        public void SetViewModelInitialezer(Action<IEditEmployeeViewModel> initializer) 
         {
-
+            if (initializer == null) return;
+            _viewModelInitializer = initializer; 
         }
 
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        protected async override void OnLoad(EventArgs e)
         {
+            await _viewModel.Initialize(_cancellationTokenSource.Token);
+            BindViewModel();
+            ResetCTS();
+            base.OnLoad(e);
+        }
 
+        private void ResetCTS()
+        {
+            if (!_cancellationTokenSource.TryReset())
+            {
+                _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+            }
+        }
+
+        private void BindViewModel()
+        {
+            BindComboBox(comboPositions, _viewModel.GetPositionNames());
+            _viewModel.PositionIndex = comboPositions.SelectedIndex;
+            comboPositions.SelectedIndexChanged += (o, e) =>
+            {
+                _viewModel.PositionIndex = comboPositions.SelectedIndex;
+            };
+            BindComboBox(comboDepartments, _viewModel.GetDepartmentNames());
+            _viewModel.DepartmentIndex = comboDepartments.SelectedIndex;
+            comboDepartments.SelectedIndexChanged += (o, e) =>
+            {
+                _viewModel.DepartmentIndex = comboDepartments.SelectedIndex;
+            };
+            BindProperties();
+        }
+
+        private void BindProperties()
+        {
+            _viewModelInitializer?.Invoke(_viewModel);
+            birthDate.Value = DateTime.Now - 18 * TimeSpan.FromDays(365);
+            firstName.DataBindings.Add("Text", _viewModel.Employee, nameof(_viewModel.Employee.FirstName));
+            lastName.DataBindings.Add("Text", _viewModel.Employee, nameof(_viewModel.Employee.LastName));
+            birthDate.DataBindings.Add("Value", _viewModel.Employee, nameof(_viewModel.Employee.BirthDate));
+            photo.DataBindings.Add("Image", _viewModel.Employee, nameof(_viewModel.Employee.Photo));
+            city.DataBindings.Add("Text", _viewModel.Address, nameof(_viewModel.Address.City));
+            street.DataBindings.Add("Text", _viewModel.Address, nameof(_viewModel.Address.Street));
+            house.DataBindings.Add("Text", _viewModel.Address, nameof(_viewModel.Address.House));
+            appartment.DataBindings.Add("Text", _viewModel.Address, nameof(_viewModel.Address.Appartment));
+        }
+
+        private void BindComboBox(ComboBox box, IEnumerable<string> names)
+        {
+            foreach (var n in names)
+            {
+                box.Items.Add(n);
+            }
+            box.SelectedIndex = 0;            
         }
 
         private void textBox7_KeyPress(object sender, KeyPressEventArgs e)
@@ -34,11 +85,9 @@ namespace TimeTracking.UI.Views
 
         private void buttonAddPhoto_Click(object sender, EventArgs e)
         {
-            var fileContent = string.Empty;
-            var filePath = string.Empty;
-
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            try
             {
+                using OpenFileDialog openFileDialog = new OpenFileDialog();
                 openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
                 openFileDialog.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
                 openFileDialog.FilterIndex = 2;
@@ -46,16 +95,19 @@ namespace TimeTracking.UI.Views
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    //Get the path of specified file
-                    filePath = openFileDialog.FileName;
-
                     if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        pictureBox1.Image = Image.FromFile(openFileDialog.FileName);
-                        
+                        photo.Image = Image.FromFile(openFileDialog.FileName);
+                        _viewModel.Employee.Photo = photo.Image;
                     }
                 }
             }
+            catch (Exception) { MessageBox.Show("Error occured!"); }
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            ;
         }
     }
 }

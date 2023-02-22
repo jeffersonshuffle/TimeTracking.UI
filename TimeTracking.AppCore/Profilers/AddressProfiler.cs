@@ -9,6 +9,8 @@ internal class AddressProfiler: Profile
     public AddressProfiler() 
     {
         CreateMap<AddressData, Address>();
+        CreateMap<Address, AddressData>();
+        CreateMap<Address, AddressDetails>();
         CreateProjection<Address, AddressListItem>()
             .ForMember(d => d.Id, o => o.MapFrom(dd => dd.Id))
             .ForMember(x => x.Street, o => o.MapFrom(a => a.Street))

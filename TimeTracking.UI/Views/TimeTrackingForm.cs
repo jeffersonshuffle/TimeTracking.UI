@@ -31,8 +31,9 @@ namespace TimeTracking.UI.Views
         }
 
         protected async override void OnLoad(EventArgs e)
-        {
-            await InitDepartment(_cts.Token);
+        {            
+            await _viewModel.Initialize(_cts.Token);
+            InitDepartment();
             if (!_cts.TryReset())
             {
                 _cts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
@@ -40,9 +41,8 @@ namespace TimeTracking.UI.Views
             base.OnLoad(e);
         }
 
-        private async Task InitDepartment(CancellationToken token = default)
-        {
-            await _viewModel.Initialize(token);
+        private void InitDepartment()
+        {            
             foreach (var d in _viewModel.Departments)
             {
                 listDepartments.Items.Add(d.Name);

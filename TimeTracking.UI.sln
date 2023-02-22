@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTracking.MySQL", "TimeT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTracking.AppCore", "TimeTracking.AppCore\TimeTracking.AppCore.csproj", "{AF9A2906-93BB-4A46-902D-88508A6A115E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTracking.Shared", "TimeTracking.Shared\TimeTracking.Shared.csproj", "{B1B94991-F07B-44B0-B1BD-CCA9F4793446}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTracking.Shared", "TimeTracking.Shared\TimeTracking.Shared.csproj", "{B1B94991-F07B-44B0-B1BD-CCA9F4793446}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{F1817624-2588-4668-94A7-638BD7691047}"
+	ProjectSection(SolutionItems) = preProject
+		TimeTracking.MySQL\Scripts\InitialCreate.sql = TimeTracking.MySQL\Scripts\InitialCreate.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
