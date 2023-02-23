@@ -20,7 +20,7 @@ internal class PositionAssignmentConfiguration : PositionAssignmentConfiguration
         builder.Property(x => x.EmployeeID).HasColumnName("employee_ID")
             .HasColumnType("BINARY(16)").HasConversion(g => g.ToByteArray(), b => new Guid(b));
         builder.Property(x => x.PositionID).HasColumnName("position_ID");
-
+        builder.Property(x => x.EmploymentType).HasColumnName("employment_type").HasColumnType("tinyint(1)");
     }
 
     protected override string PrimaryKeyName => "idx_pk_position_assignment";

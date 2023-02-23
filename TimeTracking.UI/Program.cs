@@ -33,7 +33,10 @@ internal static class Program
         DbSeeder.Seed(scope.ServiceProvider);
 #endif
         ApplicationConfiguration.Initialize();
-        Application.Run(new EditEmployeeForm(scope.ServiceProvider.GetRequiredService<IEditEmployeeViewModel>()));
+        Application.Run(new EmloyeeListForm(scope.ServiceProvider.GetRequiredService<IEmployeeListViewModel>()
+            , scope.ServiceProvider.GetRequiredService<EditEmployeeForm>()
+            ));
+        //Application.Run(new EditEmployeeForm(scope.ServiceProvider.GetRequiredService<IEditEmployeeViewModel>()));
         //Application.Run(new TimeTrackingForm(scope.ServiceProvider.GetRequiredService<IDepartmentsViewModel>()));
         host.StopAsync();
     }
@@ -50,5 +53,6 @@ internal static class Program
            services.AddDAL(hostContext.Configuration);           
            services.UseAppCore();
            services.AddViewModels();
+           services.AddViews();
        });
 }

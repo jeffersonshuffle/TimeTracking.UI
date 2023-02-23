@@ -9,5 +9,6 @@ namespace TimeTracking.Shared.DTOs
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
         public int PositionID { get; set; }
+        public bool EmploymentType { get; set; }
     }
 }

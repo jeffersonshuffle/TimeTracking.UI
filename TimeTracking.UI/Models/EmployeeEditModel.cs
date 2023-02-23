@@ -17,7 +17,7 @@ namespace TimeTracking.UI.Models
             this.employee = employee;
             EmployeeID = employeeID;
         }
-
+        public EmployeeData EmployeeData => employee; 
         public Guid EmployeeID { get; init; }
         public string FirstName
         {
@@ -47,6 +47,11 @@ namespace TimeTracking.UI.Models
             get => ImageHelper.ByteArrayToImage(employee.Photo) ?? Resources.nophoto;
             set => SetProperty(employee.Photo, value != null && !Resources.nophoto.Equals(value) ? ImageHelper.ImageToByte(value) : new byte[0], employee, (u, n) => u.Photo = n);
         }
-
+        private bool _EmploymentType = false;
+        public bool EmploymentType
+        {
+            get => _EmploymentType;
+            set => SetProperty(ref _EmploymentType, value);
+        }
     }
 }

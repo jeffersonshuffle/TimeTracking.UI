@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Net.Security;
 using TimeTracking.UI.Properties;
 using TimeTracking.UI.ViewModels;
 
@@ -40,6 +41,7 @@ namespace TimeTracking.UI.Views
 
         private void BindViewModel()
         {
+            ClearBindings(this);
             BindComboBox(comboPositions, _viewModel.GetPositionNames());
             _viewModel.PositionIndex = comboPositions.SelectedIndex;
             comboPositions.SelectedIndexChanged += (o, e) =>
@@ -57,6 +59,7 @@ namespace TimeTracking.UI.Views
 
         private void BindProperties()
         {
+            ClearBindings(this);
             _viewModelInitializer?.Invoke(_viewModel);
             birthDate.Value = DateTime.Now - 18 * TimeSpan.FromDays(365);
             firstName.DataBindings.Add("Text", _viewModel.Employee, nameof(_viewModel.Employee.FirstName));
@@ -67,6 +70,46 @@ namespace TimeTracking.UI.Views
             street.DataBindings.Add("Text", _viewModel.Address, nameof(_viewModel.Address.Street));
             house.DataBindings.Add("Text", _viewModel.Address, nameof(_viewModel.Address.House));
             appartment.DataBindings.Add("Text", _viewModel.Address, nameof(_viewModel.Address.Appartment));
+            remote.DataBindings.Add("Checked", _viewModel.Employee, nameof(_viewModel.Employee.EmploymentType));
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            ClearBindings(this);
+            ClearComboBox(comboDepartments);
+            ClearComboBox(comboPositions);
+            _viewModel.Clear();
+            base.OnClosed(e);
+        }
+
+        private void RemoveBindings(Control ctrl)
+        {
+            if (ctrl == null) return;
+            foreach (Control c in ctrl.Controls)
+            {
+                for (var i = 0; i < c.DataBindings.Count; i++)
+                {
+                    c.DataBindings.Remove(c.DataBindings[i]);
+                }
+                RemoveBindings(c);
+            }
+        }
+
+        private void ClearBindings(Control ctrl)
+        {
+            if (ctrl == null) return;
+            Binding[] bindings = new Binding[ctrl.DataBindings.Count];
+            ctrl.DataBindings.CopyTo(bindings, 0);
+            ctrl.DataBindings.Clear();
+
+            foreach (Binding binding in bindings)
+            {
+                TypeDescriptor.Refresh(binding.DataSource);
+            }
+            foreach (Control cc in ctrl.Controls)
+            {
+                ClearBindings(cc);
+            }
         }
 
         private void BindComboBox(ComboBox box, IEnumerable<string> names)
@@ -77,6 +120,13 @@ namespace TimeTracking.UI.Views
             }
             box.SelectedIndex = 0;            
         }
+
+        private void ClearComboBox(ComboBox box)
+        {
+            box.Items.Clear();
+            box.SelectedIndex = -1;
+        }
+
 
         private void textBox7_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -105,9 +155,23 @@ namespace TimeTracking.UI.Views
             catch (Exception) { MessageBox.Show("Error occured!"); }
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private async void buttonSave_Click(object sender, EventArgs e)
         {
-            ;
+            var result = await _viewModel.SaveOrUpdateAssignmentAsync(_cancellationTokenSource.Token);
+            ResetCTS();
+            if (result)
+            {
+                MessageBox.Show("Entity Saved");
+            }
+            else
+            {
+                MessageBox.Show("Error occured");
+            }
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

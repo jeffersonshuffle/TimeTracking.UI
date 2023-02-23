@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using TimeTracking.UI.Views;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -10,4 +11,11 @@ internal static class DependencyInjectionExtensions
         services.AddSelfRegisteredServices(Assembly.GetExecutingAssembly());
         return services;
     }
+
+    internal static IServiceCollection AddViews(this IServiceCollection services)
+    {
+        services.AddScoped<EditEmployeeForm>();
+        return services;
+    }
+
 }

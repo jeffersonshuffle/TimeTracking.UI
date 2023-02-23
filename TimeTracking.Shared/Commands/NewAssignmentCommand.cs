@@ -6,5 +6,6 @@ namespace TimeTracking.Shared.Commands
     {
         public AssignmentData New { get; set; }
         public EmployeeData? Employee { get; set; }
+        public AddressData? Address { get; set; }
     }
 }

@@ -10,14 +10,15 @@ namespace TimeTracking.UI.ViewModels
         DepartmentListItem[] Departments { get; }
         EmployeeEditModel Employee { get;  }
         PositionListItem[] Positions { get; }
+        void Clear();
         IEnumerable<string> GetPositionNames();
         IEnumerable<string> GetDepartmentNames();
         int DepartmentIndex { get; set; }
         int PositionIndex { get; set; }
 
-        Task<bool> AddNewAssignmentAsync(CancellationToken token = default);
+        Task<bool> SaveOrUpdateAssignmentAsync(CancellationToken token = default);
         Task Initialize(CancellationToken token);
-        Task SetEmployeeFromDetailsAsync(EmployeeDetails employee, CancellationToken token = default);
+        Task SetEmployeeFromDetailsAsync(Guid employeeID, CancellationToken token = default);
         void CreateNewEmployee();
     }
 }

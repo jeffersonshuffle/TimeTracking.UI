@@ -10,6 +10,7 @@ public class AddressEditModel: ObservableObject
     private readonly AddressData address;
     public AddressEditModel(AddressData address) => this.address = address;
 
+    public AddressData AddressData => address;
     public string City
     {
         get => address.City;

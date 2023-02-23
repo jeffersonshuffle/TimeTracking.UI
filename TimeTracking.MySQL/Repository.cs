@@ -23,6 +23,12 @@ internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         Set.Attach(entity);
     }
 
+    public void Update(TEntity entity)
+    {
+        Set.Update(entity);
+    }
+
+
     public void Delete(TEntity entity)
     {
         Set.Remove(entity);

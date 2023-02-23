@@ -26,6 +26,8 @@ internal class AssignmentCrudService : IAssignmentCrudService, ISelfRegisteredSe
         if (command.Employee != null && command.New.EmployeeID == Guid.Empty)
         {
             var employee = new Employee();
+            employee.Address = new Address();
+            _mapper.Map(command.Address, employee.Address);
             _mapper.Map(command.Employee, employee);
             @new.EmployeeID = employee.ID;
             @new.Employee = employee;
