@@ -1,7 +1,9 @@
-#define SeedDb
+#define  Dev //SeedDb
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TimeTracking.AppCore;
+using TimeTracking.AppCore.Addresses;
 using TimeTracking.UI.Helpers;
 using TimeTracking.UI.ViewModels;
 using TimeTracking.UI.Views;
@@ -10,6 +12,7 @@ namespace TimeTracking.UI;
 
 internal static class Program
 {
+    public static AsyncLocal<UserRole> UserRole = new AsyncLocal<UserRole>();
     /// <summary>
     ///  The main entry point for the application.
     /// </summary>
@@ -18,16 +21,14 @@ internal static class Program
     {
         using IHost host = CreateHostBuilder(args).Build();
         host.Start();
-
-        using var scope = host.Services.CreateScope();
+        UserRole.Value = UI.UserRole.Admin;
+        using var scope = host.Services.CreateScope();        
 #if SeedDb
-        //DbSeeder.SeedEmployees(scope.ServiceProvider);
-        //DbSeeder.SeedAddresses(scope.ServiceProvider);
-        //DbSeeder.SeedDepartments(scope.ServiceProvider);
-        //DbSeeder.SeedPositions(scope.ServiceProvider);
+        DbSeeder.Seed(scope.ServiceProvider);
 #endif
         ApplicationConfiguration.Initialize();
-        Application.Run(new EditEmployeeForm());
+        Application.Run( scope.ServiceProvider.GetRequiredService<MainForm>());
+        //Application.Run(new EditEmployeeForm(scope.ServiceProvider.GetRequiredService<IEditEmployeeViewModel>()));
         //Application.Run(new TimeTrackingForm(scope.ServiceProvider.GetRequiredService<IDepartmentsViewModel>()));
         host.StopAsync();
     }
@@ -44,5 +45,6 @@ internal static class Program
            services.AddDAL(hostContext.Configuration);           
            services.UseAppCore();
            services.AddViewModels();
+           services.AddViews();
        });
 }

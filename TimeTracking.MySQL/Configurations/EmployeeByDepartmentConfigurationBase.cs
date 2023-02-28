@@ -8,7 +8,7 @@ namespace TimeTracking.DAL.Configurations
     {
         public void Configure(EntityTypeBuilder<EmployeeByDepartment> builder)
         {
-            builder.ToView(nameof(EmployeeByDepartmentListView)).HasKey(x => x.EmployeeID);
+            builder.ToView(EmployeeByDepartmentListView).HasKey(x => x.EmployeeID);
             ConfigureDatabase(builder);
         }
         protected abstract void ConfigureDatabase(EntityTypeBuilder<EmployeeByDepartment> builder);

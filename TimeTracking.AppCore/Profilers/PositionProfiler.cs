@@ -9,6 +9,8 @@ internal class PositionProfiler: Profile
     public PositionProfiler() 
     {
         CreateMap<PositionData, Position>();
-        CreateMap<Position, PositionListItem>();
+        CreateProjection<Position, PositionListItem>()
+            .ForMember(p => p.Id, o => o.MapFrom(x => x.PositionId))
+            .ForMember(p => p.Title, o => o.MapFrom(x => x.Title));
     }
 }

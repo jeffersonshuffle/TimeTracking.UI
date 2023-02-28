@@ -21,6 +21,7 @@ namespace TimeTracking.DAL.Configurations
             builder.Property(x => x.DepartmentID).IsRequired(true);
             builder.Property(x => x.EmployeeID).IsRequired(true);
             builder.Property(x => x.PositionID).IsRequired(true);
+            builder.Property(x => x.EmploymentType).IsRequired(true);
             ConfigureDatabase(builder);
         }
         protected abstract void ConfigureDatabase(EntityTypeBuilder<PositionAssignment> builder);

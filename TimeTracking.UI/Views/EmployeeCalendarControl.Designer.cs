@@ -28,34 +28,53 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.dayOfWeek = new System.Windows.Forms.Label();
+            this.date = new System.Windows.Forms.Label();
+            this.comboMarks = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dayOfWeek
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.Size = new System.Drawing.Size(920, 455);
-            this.dataGridView1.TabIndex = 0;
+            this.dayOfWeek.AutoSize = true;
+            this.dayOfWeek.Location = new System.Drawing.Point(12, 0);
+            this.dayOfWeek.Name = "dayOfWeek";
+            this.dayOfWeek.Size = new System.Drawing.Size(0, 20);
+            this.dayOfWeek.TabIndex = 0;
+            // 
+            // date
+            // 
+            this.date.AutoSize = true;
+            this.date.Location = new System.Drawing.Point(12, 29);
+            this.date.Name = "date";
+            this.date.Size = new System.Drawing.Size(0, 20);
+            this.date.TabIndex = 1;
+            // 
+            // comboMarks
+            // 
+            this.comboMarks.FormattingEnabled = true;
+            this.comboMarks.Location = new System.Drawing.Point(12, 52);
+            this.comboMarks.Name = "comboMarks";
+            this.comboMarks.Size = new System.Drawing.Size(69, 28);
+            this.comboMarks.TabIndex = 2;
             // 
             // EmployeeCalendarControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.comboMarks);
+            this.Controls.Add(this.date);
+            this.Controls.Add(this.dayOfWeek);
             this.Name = "EmployeeCalendarControl";
-            this.Size = new System.Drawing.Size(920, 455);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.Size = new System.Drawing.Size(87, 91);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private Label dayOfWeek;
+        private Label date;
+        private ComboBox comboMarks;
     }
 }

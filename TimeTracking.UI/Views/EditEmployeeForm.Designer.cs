@@ -32,14 +32,12 @@ namespace TimeTracking.UI.Views
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
+            this.appartment = new System.Windows.Forms.TextBox();
+            this.house = new System.Windows.Forms.TextBox();
+            this.street = new System.Windows.Forms.TextBox();
+            this.city = new System.Windows.Forms.TextBox();
+            this.lastName = new System.Windows.Forms.TextBox();
+            this.firstName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -49,11 +47,12 @@ namespace TimeTracking.UI.Views
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.birthDate = new System.Windows.Forms.DateTimePicker();
+            this.comboDepartments = new System.Windows.Forms.ComboBox();
+            this.comboPositions = new System.Windows.Forms.ComboBox();
+            this.remote = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.photo = new System.Windows.Forms.PictureBox();
             this.buttonAddPhoto = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
@@ -63,7 +62,7 @@ namespace TimeTracking.UI.Views
             this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.photo)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -80,7 +79,6 @@ namespace TimeTracking.UI.Views
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel2);
-            this.splitContainer1.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
             this.splitContainer1.Size = new System.Drawing.Size(556, 673);
             this.splitContainer1.SplitterDistance = 405;
             this.splitContainer1.TabIndex = 0;
@@ -90,14 +88,12 @@ namespace TimeTracking.UI.Views
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 9);
-            this.tableLayoutPanel1.Controls.Add(this.textBox7, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this.textBox6, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.textBox5, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.textBox4, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.textBox3, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.textBox2, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label10, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this.appartment, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.house, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.street, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.city, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.lastName, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.firstName, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label9, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this.label8, 0, 7);
@@ -107,9 +103,10 @@ namespace TimeTracking.UI.Views
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.dateTimePicker1, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.comboBox1, 1, 7);
-            this.tableLayoutPanel1.Controls.Add(this.comboBox2, 1, 8);
+            this.tableLayoutPanel1.Controls.Add(this.birthDate, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.comboDepartments, 1, 7);
+            this.tableLayoutPanel1.Controls.Add(this.comboPositions, 1, 8);
+            this.tableLayoutPanel1.Controls.Add(this.remote, 1, 9);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -126,75 +123,55 @@ namespace TimeTracking.UI.Views
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(556, 405);
             this.tableLayoutPanel1.TabIndex = 0;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
-            // textBox1
+            // appartment
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(169, 363);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(384, 27);
-            this.textBox1.TabIndex = 0;
+            this.appartment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.appartment.Location = new System.Drawing.Point(169, 243);
+            this.appartment.Name = "appartment";
+            this.appartment.Size = new System.Drawing.Size(384, 27);
+            this.appartment.TabIndex = 1;
+            this.appartment.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
-            // textBox7
+            // house
             // 
-            this.textBox7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox7.Location = new System.Drawing.Point(169, 243);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(384, 27);
-            this.textBox7.TabIndex = 1;
-            this.textBox7.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.house.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.house.Location = new System.Drawing.Point(169, 203);
+            this.house.Name = "house";
+            this.house.Size = new System.Drawing.Size(384, 27);
+            this.house.TabIndex = 1;
             // 
-            // textBox6
+            // street
             // 
-            this.textBox6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox6.Location = new System.Drawing.Point(169, 203);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(384, 27);
-            this.textBox6.TabIndex = 1;
+            this.street.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.street.Location = new System.Drawing.Point(169, 163);
+            this.street.Name = "street";
+            this.street.Size = new System.Drawing.Size(384, 27);
+            this.street.TabIndex = 1;
             // 
-            // textBox5
+            // city
             // 
-            this.textBox5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox5.Location = new System.Drawing.Point(169, 163);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(384, 27);
-            this.textBox5.TabIndex = 1;
+            this.city.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.city.Location = new System.Drawing.Point(169, 123);
+            this.city.Name = "city";
+            this.city.Size = new System.Drawing.Size(384, 27);
+            this.city.TabIndex = 1;
             // 
-            // textBox4
+            // lastName
             // 
-            this.textBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox4.Location = new System.Drawing.Point(169, 123);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(384, 27);
-            this.textBox4.TabIndex = 1;
+            this.lastName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lastName.Location = new System.Drawing.Point(169, 43);
+            this.lastName.Name = "lastName";
+            this.lastName.Size = new System.Drawing.Size(384, 27);
+            this.lastName.TabIndex = 1;
             // 
-            // textBox3
+            // firstName
             // 
-            this.textBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox3.Location = new System.Drawing.Point(169, 43);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(384, 27);
-            this.textBox3.TabIndex = 1;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox2.Location = new System.Drawing.Point(169, 3);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(384, 27);
-            this.textBox2.TabIndex = 1;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.Location = new System.Drawing.Point(3, 360);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(160, 45);
-            this.label10.TabIndex = 8;
-            this.label10.Text = "e-mail";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.firstName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.firstName.Location = new System.Drawing.Point(169, 3);
+            this.firstName.Name = "firstName";
+            this.firstName.Size = new System.Drawing.Size(384, 27);
+            this.firstName.TabIndex = 1;
             // 
             // label1
             // 
@@ -295,39 +272,50 @@ namespace TimeTracking.UI.Views
             this.label2.Text = "Last Name";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // dateTimePicker1
+            // birthDate
             // 
-            this.dateTimePicker1.AllowDrop = true;
-            this.dateTimePicker1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dateTimePicker1.Location = new System.Drawing.Point(169, 83);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(384, 27);
-            this.dateTimePicker1.TabIndex = 9;
+            this.birthDate.AllowDrop = true;
+            this.birthDate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.birthDate.Location = new System.Drawing.Point(169, 83);
+            this.birthDate.Name = "birthDate";
+            this.birthDate.Size = new System.Drawing.Size(384, 27);
+            this.birthDate.TabIndex = 9;
             // 
-            // comboBox1
+            // comboDepartments
             // 
-            this.comboBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(169, 283);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(384, 28);
-            this.comboBox1.TabIndex = 10;
+            this.comboDepartments.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboDepartments.FormattingEnabled = true;
+            this.comboDepartments.Location = new System.Drawing.Point(169, 283);
+            this.comboDepartments.Name = "comboDepartments";
+            this.comboDepartments.Size = new System.Drawing.Size(384, 28);
+            this.comboDepartments.TabIndex = 10;
             // 
-            // comboBox2
+            // comboPositions
             // 
-            this.comboBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(169, 323);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(384, 28);
-            this.comboBox2.TabIndex = 11;
+            this.comboPositions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboPositions.FormattingEnabled = true;
+            this.comboPositions.Location = new System.Drawing.Point(169, 323);
+            this.comboPositions.Name = "comboPositions";
+            this.comboPositions.Size = new System.Drawing.Size(384, 28);
+            this.comboPositions.TabIndex = 11;
+            // 
+            // remote
+            // 
+            this.remote.AutoSize = true;
+            this.remote.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.remote.Location = new System.Drawing.Point(169, 363);
+            this.remote.Name = "remote";
+            this.remote.Size = new System.Drawing.Size(384, 39);
+            this.remote.TabIndex = 12;
+            this.remote.Text = "remote";
+            this.remote.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.pictureBox1, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.photo, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.buttonAddPhoto, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.buttonSave, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.buttonCancel, 1, 1);
@@ -340,16 +328,16 @@ namespace TimeTracking.UI.Views
             this.tableLayoutPanel2.Size = new System.Drawing.Size(556, 264);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
-            // pictureBox1
+            // photo
             // 
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(281, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(272, 126);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.photo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.photo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.photo.Location = new System.Drawing.Point(281, 3);
+            this.photo.Name = "photo";
+            this.photo.Size = new System.Drawing.Size(272, 126);
+            this.photo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.photo.TabIndex = 0;
+            this.photo.TabStop = false;
             // 
             // buttonAddPhoto
             // 
@@ -372,6 +360,7 @@ namespace TimeTracking.UI.Views
             this.buttonSave.TabIndex = 2;
             this.buttonSave.Text = "Save";
             this.buttonSave.UseVisualStyleBackColor = false;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // buttonCancel
             // 
@@ -383,6 +372,7 @@ namespace TimeTracking.UI.Views
             this.buttonCancel.TabIndex = 3;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = false;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // EditEmployeeForm
             // 
@@ -399,7 +389,7 @@ namespace TimeTracking.UI.Views
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.photo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -409,7 +399,6 @@ namespace TimeTracking.UI.Views
         private SplitContainer splitContainer1;
         private TableLayoutPanel tableLayoutPanel1;
         private Label label1;
-        private Label label10;
         private Label label9;
         private Label label8;
         private Label label7;
@@ -418,20 +407,20 @@ namespace TimeTracking.UI.Views
         private Label label4;
         private Label label3;
         private Label label2;
-        private DateTimePicker dateTimePicker1;
-        private TextBox textBox2;
-        private TextBox textBox1;
-        private TextBox textBox7;
-        private TextBox textBox6;
-        private TextBox textBox5;
-        private TextBox textBox4;
-        private TextBox textBox3;
-        private ComboBox comboBox1;
-        private ComboBox comboBox2;
+        private DateTimePicker birthDate;
+        private TextBox firstName;
+        private TextBox appartment;
+        private TextBox house;
+        private TextBox street;
+        private TextBox city;
+        private TextBox lastName;
+        private ComboBox comboDepartments;
+        private ComboBox comboPositions;
         private TableLayoutPanel tableLayoutPanel2;
-        private PictureBox pictureBox1;
+        private PictureBox photo;
         private Button buttonAddPhoto;
         private Button buttonSave;
         private Button buttonCancel;
+        private CheckBox remote;
     }
 }

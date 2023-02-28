@@ -12,6 +12,7 @@ namespace TimeTracking.DataModels.Organisation
         public virtual Employee Employee { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
+        public bool EmploymentType { get; set; }
         public int PositionID { get; set; }
         public virtual Position Position { get; set; }
     }

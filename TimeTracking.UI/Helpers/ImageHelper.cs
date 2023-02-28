@@ -8,6 +8,17 @@ namespace TimeTracking.UI.Helpers
 {
     internal static class ImageHelper
     {
+        public static Image ByteArrayToImage(byte[] bytes)
+        {
+            if (bytes == null || bytes.Length == 0) return null;
+            try
+            {
+                using var ms = new MemoryStream(bytes);
+                return Image.FromStream(ms);
+            }
+            catch { return null; }
+        }
+
         public static byte[] ImageToByte(Image img)
         {
             ImageConverter converter = new ImageConverter();
