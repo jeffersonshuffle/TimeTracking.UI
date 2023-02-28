@@ -44,8 +44,8 @@ namespace TimeTracking.UI.Models
         }
         public Image Photo
         {
-            get => ImageHelper.ByteArrayToImage(employee.Photo) ?? Resources.nophoto;
-            set => SetProperty(employee.Photo, value != null && !Resources.nophoto.Equals(value) ? ImageHelper.ImageToByte(value) : new byte[0], employee, (u, n) => u.Photo = n);
+            get => ImageHelper.ByteArrayToImage(employee.Photo) ?? Resources.nophoto; 
+            set => SetProperty(employee.Photo, value != null ? ImageHelper.ImageToByte(value) : new byte[0], employee, (u, n) => u.Photo = n);
         }
         private bool _EmploymentType = false;
         public bool EmploymentType

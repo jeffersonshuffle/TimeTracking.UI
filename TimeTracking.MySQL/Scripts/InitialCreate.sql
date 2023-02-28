@@ -110,7 +110,7 @@ ALTER TABLE position_assignment
 ADD COLUMN employment_type boolean NOT NULL default(false);
 
 CREATE VIEW employee_list_view AS
-select  e.ID as EmployeeID, e.first_name as FirstName,
+select  e.ID as EmployeeID, pa.ID as AssignmentID, e.first_name as FirstName,
 	e.last_name as LastName, e.birth_date as BirthDate,  p.title as EmployeePosition, pa.employment_type as IsRemote,
     concat(a.city,' ',a.street, ' ', a.house,' ', a.appartment) as AddressLine, e.photo as Photo
 from employee as e 

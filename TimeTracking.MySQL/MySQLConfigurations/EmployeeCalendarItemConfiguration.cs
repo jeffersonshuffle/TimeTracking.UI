@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MySql.EntityFrameworkCore.Extensions;
 using TimeTracking.DataModels;
 
 namespace TimeTracking.DAL.Configurations;
@@ -14,7 +13,7 @@ internal class EmployeeCalendarItemConfiguration : EmployeeCalendarItemConfigura
             .HasColumnType("BINARY(16)").HasConversion(g => g.ToByteArray(), b => new Guid(b));
         builder.Property(x => x.DayMarkID).HasColumnName("day_mark_id");
         builder.Property(x => x.Date).HasColumnName("date")
-            .HasColumnType("DATETIME").ForMySQLHasDefaultValueSql("CURRENT_TIMESTAMP");
+            .HasColumnType("DATETIME").HasDefaultValue(DateTime.Now);
     }
 
     protected override string PrimaryKeyName => "idx_pk_employee_calendar_item";

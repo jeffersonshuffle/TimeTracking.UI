@@ -8,6 +8,7 @@ namespace TimeTracking.Shared
         public static string AppendZeroes(this string value, int count, ZeroesPosition at = ZeroesPosition.Left) 
         {
             var rank = count - value.Length;
+            if (rank <= 0) return value;
             var zeroes = Enumerable.Repeat('0', rank).ToArray();
             if (at == ZeroesPosition.Left && value.Length < count)
             {

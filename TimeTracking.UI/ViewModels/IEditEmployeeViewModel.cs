@@ -15,7 +15,7 @@ namespace TimeTracking.UI.ViewModels
         IEnumerable<string> GetDepartmentNames();
         int DepartmentIndex { get; set; }
         int PositionIndex { get; set; }
-
+        Guid AssignmentID { get; set; }
         Task<bool> SaveOrUpdateAssignmentAsync(CancellationToken token = default);
         Task Initialize(CancellationToken token);
         Task SetEmployeeFromDetailsAsync(Guid employeeID, CancellationToken token = default);

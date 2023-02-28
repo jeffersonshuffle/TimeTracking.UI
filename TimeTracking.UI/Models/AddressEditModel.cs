@@ -8,8 +8,13 @@ namespace TimeTracking.UI.Models;
 public class AddressEditModel: ObservableObject
 {
     private readonly AddressData address;
-    public AddressEditModel(AddressData address) => this.address = address;
-
+    public AddressEditModel(AddressData address) : this(0, address) { }
+    public AddressEditModel(int addressId, AddressData address) 
+    {
+        AddressId = addressId;
+        this.address = address; 
+    }
+    public int AddressId { get; private set; }
     public AddressData AddressData => address;
     public string City
     {

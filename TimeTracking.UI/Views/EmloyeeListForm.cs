@@ -1,16 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using TimeTracking.AppCore;
-using TimeTracking.Shared.DTOs;
+﻿using System.ComponentModel;
 using TimeTracking.UI.Models;
 using TimeTracking.UI.ViewModels;
 
@@ -37,20 +25,23 @@ namespace TimeTracking.UI.Views
 
         protected async override void OnLoad(EventArgs e)
         {
+            ResetCTS();
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             base.OnLoad(e);
-            await InitializeListAsync(_cancellationTokenSource.Token);
+            await _viewModel.InitializeAsync(_cancellationTokenSource.Token);
+            InitializeList();
+            employeeList.ResumeLayout(false);
         }
 
-        private async Task InitializeListAsync(CancellationToken token = default) 
+        private void InitializeList() 
         {
+            employeeList.DataSource = null;
             employeeList.SuspendLayout();
             employeeList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             employeeList.MultiSelect = false;
             employeeList.RowTemplate.Height = 80;
-            
-            await _viewModel.InitializeAsync(token);
+                        
             var photoName = typeof(EmployeeListItemModel).GetProperty("Photo")?.Name;
             var column = new DataGridViewImageColumn();
             column.Width = 80;
@@ -60,6 +51,8 @@ namespace TimeTracking.UI.Views
             employeeList.Columns.Add(column);
             foreach (var prop in typeof(EmployeeListItemModel).GetProperties())
             {
+                if (prop.Name == nameof(EmployeeListItemModel.AssignmentID)
+                    || prop.Name == nameof(EmployeeListItemModel.EmployeeID)) continue;
                 if (prop.Name != photoName)
                 {
                     if (prop.Name == nameof(EmployeeListItemModel.IsRemote))
@@ -80,7 +73,7 @@ namespace TimeTracking.UI.Views
             }
             employeeList.DataSource = _viewModel.GetList().ToArray();
             if (employeeList.Rows.Count > 0) employeeList.Rows[0].Selected = true;
-            employeeList.ResumeLayout(false);
+            
         }
 
         private void SizeAllRows(Object sender, EventArgs e)
@@ -95,14 +88,28 @@ namespace TimeTracking.UI.Views
             }
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private async void buttonAdd_Click(object sender, EventArgs e)
         {
+            _editEmployeeForm.NewEmployee();
             _editEmployeeForm.ShowDialog();
+            await Reload();
         }
 
-        private void buttonEdit_Click(object sender, EventArgs e)
+        private async Task Reload() 
         {
+            ResetCTS();
+            await _viewModel.InitializeAsync(_cancellationTokenSource.Token);
+            InitializeList();
+        }
 
+        private async void buttonEdit_Click(object sender, EventArgs e)
+        {
+            ResetCTS();
+            await _editEmployeeForm.EditEmployee(_viewModel.EmployeeList[_viewModel.SelectedIndex].EmployeeID
+                , _viewModel.EmployeeList[_viewModel.SelectedIndex].AssignmentID
+                , _cancellationTokenSource.Token);
+            _editEmployeeForm.ShowDialog();
+            await Reload();
         }
 
         private async void buttonDelete_Click(object sender, EventArgs e)
@@ -115,10 +122,13 @@ namespace TimeTracking.UI.Views
             {
                 MessageBox.Show("Error!");
             }
-            ResetCTS();
-            ClearBindings(this);
-            await InitializeListAsync(_cancellationTokenSource.Token);
-            ResetCTS(); 
+            await Reload();             
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            employeeList.DataSource = null;
+            base.OnClosed(e);
         }
 
         private void ClearBindings(Control ctrl)
@@ -136,6 +146,24 @@ namespace TimeTracking.UI.Views
             {
                 ClearBindings(cc);
             }
+        }
+
+
+        ToolTip searchToolTip = new ToolTip(); 
+        private void search_MouseHover(object sender, EventArgs e)
+        {
+            searchToolTip.SetToolTip(search, "Search by Name");
+        }
+
+        private async void buttonSearch_Click(object sender, EventArgs e)
+        {
+            ResetCTS();
+            if (string.IsNullOrEmpty(search.Text) || string.IsNullOrWhiteSpace(search.Text)) 
+            {
+                await _viewModel.InitializeAsync(_cancellationTokenSource.Token);
+            }
+            await _viewModel.SearchAsync(search.Text, _cancellationTokenSource.Token);
+            InitializeList();
         }
     }
 }

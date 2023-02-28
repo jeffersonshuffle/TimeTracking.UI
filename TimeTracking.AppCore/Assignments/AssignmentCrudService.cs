@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using TimeTracking.Abstractions;
 using TimeTracking.DAL;
 using TimeTracking.DataModels.Organisation;
 using TimeTracking.Shared.Commands;
+using TimeTracking.Shared.DTOs;
 
 namespace TimeTracking.AppCore;
 
@@ -11,7 +13,7 @@ internal class AssignmentCrudService : IAssignmentCrudService, ISelfRegisteredSe
     private readonly IRepository<PositionAssignment> _assignments;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    public AssignmentCrudService(IRepository<PositionAssignment> Assignments, IUnitOfWork unitOfWork, IMapper mapper) 
+    public AssignmentCrudService(IRepository<PositionAssignment> Assignments, IEmployeeCrudService employees, IUnitOfWork unitOfWork, IMapper mapper) 
     {
         _assignments = Assignments;
         _unitOfWork = unitOfWork;
@@ -27,12 +29,28 @@ internal class AssignmentCrudService : IAssignmentCrudService, ISelfRegisteredSe
         {
             var employee = new Employee();
             employee.Address = new Address();
-            _mapper.Map(command.Address, employee.Address);
+            command.Employee.Address = command.Address;
             _mapper.Map(command.Employee, employee);
-            @new.EmployeeID = employee.ID;
             @new.Employee = employee;
-        }        
+        }
         _assignments.Insert(@new);
+        await _unitOfWork.SaveChangesAsync(token);
+    }
+
+    public async Task ExecuteAsync(UpdateCommand<Guid, AssignmentData> command, CancellationToken token = default)
+    {
+        var update = await _assignments.Set.Where(e => e.ID == command.Identity).FirstOrDefaultAsync(token);
+        if (update == null) return;
+        _mapper.Map(command.Data, update);
+        _assignments.Update(update);
+        await _unitOfWork.SaveChangesAsync(token);
+    }
+
+    public async Task ExecuteAsync(DeleteCommand<Guid> command, CancellationToken token = default)
+    {
+        var toDel = await _assignments.Set.Where(entity => entity.ID == command.Identity).FirstOrDefaultAsync(token);
+        if (toDel == null) return;
+        _assignments.Delete(toDel);
         await _unitOfWork.SaveChangesAsync(token);
     }
 }

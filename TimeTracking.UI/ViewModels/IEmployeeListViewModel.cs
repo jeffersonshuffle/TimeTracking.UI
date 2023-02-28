@@ -9,6 +9,8 @@ public interface IEmployeeListViewModel
     Task<bool> DeleteAsync( CancellationToken token = default);
     Task InitializeAsync(CancellationToken token = default);
     IEnumerable<EmployeeListItemModel> GetList();
+    Task SearchAsync(string searchPattern, CancellationToken token = default);
+
     AssignedEmployeeListItem[] EmployeeList
     {
         get;

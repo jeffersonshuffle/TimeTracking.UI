@@ -22,20 +22,12 @@ internal static class Program
         using IHost host = CreateHostBuilder(args).Build();
         host.Start();
         UserRole.Value = UI.UserRole.Admin;
-        using var scope = host.Services.CreateScope();
-        //var employees = scope.ServiceProvider.GetRequiredService<IAddressQueryService>();
-        //foreach (var employee in employees.GetAddressesAsync().GetAwaiter().GetResult())
-        //{
-        //    var details = employees.FindAsync(employee.Id).GetAwaiter().GetResult();
-        //    ;
-        //}
+        using var scope = host.Services.CreateScope();        
 #if SeedDb
         DbSeeder.Seed(scope.ServiceProvider);
 #endif
         ApplicationConfiguration.Initialize();
-        Application.Run(new EmloyeeListForm(scope.ServiceProvider.GetRequiredService<IEmployeeListViewModel>()
-            , scope.ServiceProvider.GetRequiredService<EditEmployeeForm>()
-            ));
+        Application.Run( scope.ServiceProvider.GetRequiredService<MainForm>());
         //Application.Run(new EditEmployeeForm(scope.ServiceProvider.GetRequiredService<IEditEmployeeViewModel>()));
         //Application.Run(new TimeTrackingForm(scope.ServiceProvider.GetRequiredService<IDepartmentsViewModel>()));
         host.StopAsync();

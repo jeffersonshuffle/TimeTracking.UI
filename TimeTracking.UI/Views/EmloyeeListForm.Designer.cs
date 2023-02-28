@@ -107,6 +107,7 @@
             this.search.Name = "search";
             this.search.Size = new System.Drawing.Size(201, 47);
             this.search.TabIndex = 0;
+            this.search.MouseHover += new System.EventHandler(this.search_MouseHover);
             // 
             // buttonSearch
             // 
@@ -118,6 +119,7 @@
             this.buttonSearch.TabIndex = 1;
             this.buttonSearch.Text = "Search";
             this.buttonSearch.UseVisualStyleBackColor = false;
+            this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
             // 
             // buttonAdd
             // 

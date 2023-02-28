@@ -1,7 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using TimeTracking.DataModels.Organisation;
-using TimeTracking.Shared;
-using TimeTracking.Shared.DTOs;
+﻿using TimeTracking.Shared.DTOs;
 using TimeTracking.UI.Helpers;
 using TimeTracking.UI.Properties;
 
@@ -13,6 +10,7 @@ namespace TimeTracking.UI.Models
         public EmployeeListItemModel(AssignedEmployeeListItem employee) => this.employee = employee;
         
         public Guid EmployeeID => employee.EmployeeID;
+        public Guid AssignmentID => employee.AssignmentID;
         public string FirstNameget => employee.FirstName;
         public string LastName => employee.LastName;
         public string EmployeePosition => employee.EmployeePosition;

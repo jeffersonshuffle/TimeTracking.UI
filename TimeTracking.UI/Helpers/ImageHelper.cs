@@ -11,8 +11,12 @@ namespace TimeTracking.UI.Helpers
         public static Image ByteArrayToImage(byte[] bytes)
         {
             if (bytes == null || bytes.Length == 0) return null;
-            using var ms = new MemoryStream(bytes);
-            return Image.FromStream(ms);
+            try
+            {
+                using var ms = new MemoryStream(bytes);
+                return Image.FromStream(ms);
+            }
+            catch { return null; }
         }
 
         public static byte[] ImageToByte(Image img)

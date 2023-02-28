@@ -10,5 +10,6 @@ namespace TimeTracking.Shared.DTOs
         public DateTime BirthDate { get; set; } = DateTime.Now - 18 * TimeSpan.FromDays(365);
         public byte[] Photo { get; set; }
         public int AddressId { get; set; }
+        public AddressData? Address { get; set; }
     }
 }

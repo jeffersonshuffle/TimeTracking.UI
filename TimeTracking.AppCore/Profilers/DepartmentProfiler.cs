@@ -13,5 +13,8 @@ internal class DepartmentProfiler: Profile
             .ForMember(d => d.DepartmentId, o => o.MapFrom(dd => dd.ID))
             .ForMember(d => d.Name, o => o.MapFrom(dd => dd.Name));
         CreateMap<DepartmentData, Department>();
+        CreateMap<Department, DepartmentData>();
+        CreateMap<Department, DepartmentDetails>();
+            
     }
 }

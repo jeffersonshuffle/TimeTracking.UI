@@ -4,6 +4,8 @@ using TimeTracking.DataModels;
 using TimeTracking.DAL;
 using TimeTracking.MySQL;
 using TimeTracking.DAL.Options;
+using Microsoft.EntityFrameworkCore.Storage;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace Microsoft.Extensions.DependencyInjection;
 public static class DependencyInjectionExtensions
@@ -12,6 +14,7 @@ public static class DependencyInjectionExtensions
     {
         services.AddContext(configuration);
         services.AddScoped<IUnitOfWork>(provider => provider.GetService<ApplicationDbContext>());
+        services.AddScoped<IStorageProvider>(provider => new StorageProvider { Database = provider.GetService<ApplicationDbContext>().Database });
         services.AddDbSets();
         services.AddScoped(typeof(IRepository<>),typeof(Repository<>));
         services.AddScoped(typeof(IQueryableDataAdapter<>), typeof(QueryableDataAdapter<>));
@@ -23,8 +26,9 @@ public static class DependencyInjectionExtensions
     {
         var sqlConnection = configuration.GetSection(nameof(MySqlConnectionOptions)).Get<MySqlConnectionOptions>();
         services.AddDbContext<ApplicationDbContext>(options => {
-            options.UseMySQL(configuration.GetConnectionString(sqlConnection.ConnectionStringName));
-        });
+            options.UseMySql(configuration.GetConnectionString(sqlConnection.ConnectionStringName),
+                new MySqlServerVersion(new Version(8, 0, 15)));
+        }, ServiceLifetime.Transient);
         return services;
     }
 

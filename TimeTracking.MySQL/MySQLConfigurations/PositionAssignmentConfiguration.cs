@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MySql.EntityFrameworkCore.Extensions;
 using TimeTracking.DataModels.Organisation;
 
 namespace TimeTracking.DAL.Configurations;
@@ -12,9 +11,9 @@ internal class PositionAssignmentConfiguration : PositionAssignmentConfiguration
         builder.Property(x => x.ID).HasColumnName("ID")
             .HasColumnType("BINARY(16)").HasConversion(g => g.ToByteArray(), b => new Guid(b));
         builder.Property(x => x.DateCreated).HasColumnName("date_created")
-            .HasColumnType("DATETIME").ForMySQLHasDefaultValueSql("CURRENT_TIMESTAMP");
+            .HasColumnType("DATETIME").HasDefaultValue(DateTime.Now);
         builder.Property(x => x.DateModified).HasColumnName("date_modified")
-            .HasColumnType("DATETIME").ForMySQLHasDefaultValueSql("CURRENT_TIMESTAMP");
+            .HasColumnType("DATETIME").HasDefaultValue(DateTime.Now);
         builder.Property(x => x.DepartmentID).HasColumnName("department_ID")
             .HasColumnType("BINARY(16)").HasConversion(g => g.ToByteArray(), b => new Guid(b));
         builder.Property(x => x.EmployeeID).HasColumnName("employee_ID")

@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
@@ -24,7 +23,7 @@ namespace TimeTracking.MySQL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     country = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     city = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     street = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false),
@@ -48,7 +47,7 @@ namespace TimeTracking.MySQL.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     name = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false),
                     @short = table.Column<string>(name: "short", type: "varchar(10)", maxLength: 10, nullable: false)
                 },
@@ -79,7 +78,7 @@ namespace TimeTracking.MySQL.Migrations
                 columns: table => new
                 {
                     position_id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     title = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false),
                     description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
                 },
@@ -121,7 +120,7 @@ namespace TimeTracking.MySQL.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     date = table.Column<DateTime>(type: "DATETIME", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     day_mark_id = table.Column<int>(type: "int", nullable: false),
                     employee_id = table.Column<byte[]>(type: "BINARY(16)", nullable: false)

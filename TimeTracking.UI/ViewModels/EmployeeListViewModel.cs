@@ -1,8 +1,6 @@
-﻿using System.Security.Principal;
-using TimeTracking.Abstractions;
+﻿using TimeTracking.Abstractions;
 using TimeTracking.AppCore;
 using TimeTracking.AppCore.Addresses;
-using TimeTracking.DataModels;
 using TimeTracking.Shared.Commands;
 using TimeTracking.Shared.DTOs;
 using TimeTracking.UI.Models;
@@ -35,6 +33,15 @@ namespace TimeTracking.UI.ViewModels
         public async Task InitializeAsync(CancellationToken token = default)
         {
             EmployeeList = await _assignedEmployeeQuery.ListAsync(token);
+            SelectedIndex = 0;
+        }
+
+        public async Task SearchAsync(string searchPattern, CancellationToken token = default)
+        {
+            EmployeeList = await _assignedEmployeeQuery.HandleAsync(new Shared.Queries.Query<Shared.Specifications.SearchStringSpecification> 
+            {
+                Specification = new Shared.Specifications.SearchStringSpecification { SearchPattern = searchPattern }
+            },token);
             SelectedIndex = 0;
         }
 

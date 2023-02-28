@@ -5,6 +5,7 @@ namespace TimeTracking.Shared.DTOs
     public class AssignedEmployeeListItem
     {
         public Guid EmployeeID { get; set;}
+        public Guid AssignmentID { get; set; }
         public string FirstName { get; set;}
         public string LastName { get; set;}
         public DateTime BirthDate { get; set;}

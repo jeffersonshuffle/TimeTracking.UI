@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TimeTracking.AppCore;
 using TimeTracking.AppCore.Addresses;
+using TimeTracking.DAL;
+using TimeTracking.DataModels;
 using TimeTracking.UI.Helpers;
 
 namespace TimeTracking;
@@ -9,12 +11,42 @@ public static class DbSeeder
 {
     public static void Seed(IServiceProvider services)
     {
+        SeedMarks(services);
         SeedPositions(services);
         SeedDepartments(services);
         SeedEmployeesWithAddress(services);
         SeedAddresses(services);
         SeedEmployees(services);
         SeedAssignments(services);
+    }
+
+    public static void SeedMarks(IServiceProvider services)
+    {
+        var marks = services.GetRequiredService<IRepository<DayMark>>();
+        marks.Insert(new DayMark { Short = "W", Name = "полный рабочий день" });
+        marks.Insert(new DayMark { Short = "M", Name = "отсутствие на рабочее место по невыясненным причинам" });
+        marks.Insert(new DayMark { Short = "H", Name = "выходные и праздничные дни" });
+        marks.Insert(new DayMark { Short = "WH", Name = "работа в праздничные и выходные дни; а также работа в праздничные и выходные дни, при\r\n        //нахождении в командировке" });
+        marks.Insert(new DayMark { Short = "Б", Name = "дни временной нетрудоспособности" });
+        marks.Insert(new DayMark { Short = "К", Name = "командировочные дни; а также, выходные (нерабочие) дни при нахождении в командировке, когда сотрудник отдыхает, в соответствии с графиком работы ООО «Наука» в командировке" });
+        marks.Insert(new DayMark { Short = "ОТ", Name = "ежегодный основной оплаченный отпуск" });
+        marks.Insert(new DayMark { Short = "До", Name = "неоплачиваемый отпуск(отпуск за свой счет)" });
+        marks.Insert(new DayMark { Short = "Хд", Name = "хозяйственный день" });
+        marks.Insert(new DayMark { Short = "У", Name = "отпуск на период обучения" });
+        marks.Insert(new DayMark { Short = "Ож", Name = "Отпуск по уходу за ребенком" });
+        services.GetRequiredService<IUnitOfWork>().SaveChangesAsync().GetAwaiter().GetResult();
+        //        Я – полный рабочий день;
+        //        Н – отсутствие на рабочее место по невыясненным причинам;
+        //        В – выходные и праздничные дни;
+        //        Рв – работа в праздничные и выходные дни; а также работа в праздничные и выходные дни, при
+        //нахождении в командировке;
+        //        Б – дни временной нетрудоспособности;
+        //        К – командировочные дни; а также, выходные (нерабочие) дни при нахождении в командировке, когда сотрудник отдыхает, в соответствии с графиком работы ООО «Наука» в командировке;
+        //        ОТ – ежегодный основной оплаченный отпуск;
+        //        До – неоплачиваемый отпуск(отпуск за свой счет);
+        //        Хд – хозяйственный день;
+        //        У – отпуск на период обучения.
+        //Ож – Отпуск по уходу за ребенком.
     }
 
     public static void SeedAssignments(IServiceProvider services)

@@ -8,7 +8,8 @@ namespace TimeTracking.UI.Views
     public partial class EditEmployeeForm : Form
     {
         private readonly IEditEmployeeViewModel _viewModel;
-        private Action<IEditEmployeeViewModel> _viewModelInitializer = vm => vm.CreateNewEmployee();
+        private Func<IEditEmployeeViewModel, CancellationToken, Task> _viewModelInitializer = 
+            (vm, _) => { vm.CreateNewEmployee(); return Task.CompletedTask; };
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(20));
         public EditEmployeeForm(IEditEmployeeViewModel viewModel)
         {
@@ -17,10 +18,25 @@ namespace TimeTracking.UI.Views
             photo.Image = Resources.nophoto;
         }
 
-        public void SetViewModelInitialezer(Action<IEditEmployeeViewModel> initializer) 
+        public void SetViewModelInitialezer(Func<IEditEmployeeViewModel, CancellationToken, Task> initializer) 
         {
             if (initializer == null) return;
             _viewModelInitializer = initializer; 
+        }
+
+        public Task NewEmployee()
+        {
+            SetViewModelInitialezer( (vm, _) => { vm.CreateNewEmployee(); return Task.CompletedTask;});
+            return Task.CompletedTask;
+        }
+
+        public async Task EditEmployee(Guid employeeID, Guid assignmentID, CancellationToken token = default)
+        {
+            SetViewModelInitialezer( async (vm, ts) => 
+            { 
+                await _viewModel.SetEmployeeFromDetailsAsync(employeeID, ts); 
+                _viewModel.AssignmentID= assignmentID;
+            });
         }
 
         protected async override void OnLoad(EventArgs e)
@@ -57,10 +73,11 @@ namespace TimeTracking.UI.Views
             BindProperties();
         }
 
-        private void BindProperties()
+        private async Task BindProperties(CancellationToken token = default)
         {
             ClearBindings(this);
-            _viewModelInitializer?.Invoke(_viewModel);
+            await _viewModelInitializer?.Invoke(_viewModel, _cancellationTokenSource.Token);
+            ResetCTS();
             birthDate.Value = DateTime.Now - 18 * TimeSpan.FromDays(365);
             firstName.DataBindings.Add("Text", _viewModel.Employee, nameof(_viewModel.Employee.FirstName));
             lastName.DataBindings.Add("Text", _viewModel.Employee, nameof(_viewModel.Employee.LastName));
@@ -75,11 +92,17 @@ namespace TimeTracking.UI.Views
 
         protected override void OnClosed(EventArgs e)
         {
+            ChangeCloseToCancel();
+            ClearAll();
+            base.OnClosed(e);
+        }
+
+        private void ClearAll()
+        {
             ClearBindings(this);
             ClearComboBox(comboDepartments);
             ClearComboBox(comboPositions);
             _viewModel.Clear();
-            base.OnClosed(e);
         }
 
         private void RemoveBindings(Control ctrl)
@@ -162,12 +185,26 @@ namespace TimeTracking.UI.Views
             if (result)
             {
                 MessageBox.Show("Entity Saved");
+                ChangeCancelToClose();
             }
             else
             {
                 MessageBox.Show("Error occured");
             }
         }
+
+        private void ChangeCancelToClose() 
+        {
+            buttonCancel.Text = "Close";
+            buttonCancel.BackColor = Color.Violet;
+        }
+
+        private void ChangeCloseToCancel()
+        {
+            buttonCancel.Text = "Cancel";
+            buttonCancel.BackColor = Color.Red;
+        }
+
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
